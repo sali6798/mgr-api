@@ -6,11 +6,7 @@ const PostSchema = new Schema({
         type: String,
         trim: true
     },
-    imageLinks: [
-        {
-            type: String
-        }
-    ],
+    imageLinks: Array,
     release: {
         type: Date,
         default: null
