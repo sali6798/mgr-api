@@ -18,7 +18,7 @@ app.use(cors({
     origin:["http://localhost:3000"]
 }));
 // app.use(cors({
-//     origin: ["https://joes-baseball-frontend.herokuapp.com"]
+//     origin: ["https://mgr-talent.herokuapp.com"]
 // }));
 
 app.use(routes);
