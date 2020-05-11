@@ -1,15 +1,14 @@
 const express = require('express');
 const cors = require("cors");
-const mongoose = require("mongoose")
+const logger = require("morgan");
+const mongoose = require("mongoose");
 const routes = require("./routes");
 // Sets up the Express App
 // =============================================================
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-
-// Requiring our models for syncing
-// var db = require('./models');
+app.use(logger("dev"));
 
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
