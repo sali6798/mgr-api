@@ -1,7 +1,15 @@
 const router = require("express").Router();
-const userRoutes = require("./user");
+const groupsController = require("../../controllers/groupsController");
 
-// User routes
-router.use("/user", userRoutes);
+//group routes: /api/group/
+router.route("/")
+    .get(groupsController.findAll)
+    .post(groupsController.create);
+
+//group routes by ID: /api/group/:id   
+router.route("/:id")
+    .get(groupsController.findById)
+    .put(groupsController.update)
+    .delete(groupsController.remove);
 
 module.exports = router;

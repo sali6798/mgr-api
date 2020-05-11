@@ -1,22 +1,15 @@
 const router = require("express").Router();
-const userController = require("../../controllers/usersController");
+const usersController = require("../../controllers/usersController");
 
-// ============= EXAMPLE SETUP ==============
-// // Matches with "/api/user"
-// router.route("/")
-//   .get(userController.findAll)
-//   .post(userController.create);
+//User routes: /api/user/
+router.route("/")
+    .get(usersController.findAll)
+    .post(usersController.create);
 
-// // Matches with "/api/user/:id"
-// router
-//   .route("/:id")
-//   .get(userController.findById)
-//   .put(userController.update)
-//   .delete(userController.remove);
-
-
-//create
-
-//delete
+//User routes by ID: /api/user/:id
+router.route("/:id")
+    .get(usersController.findById)
+    .put(usersController.update)
+    .delete(usersController.remove);
 
 module.exports = router;
