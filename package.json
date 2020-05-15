@@ -19,9 +19,16 @@
   },
   "homepage": "https://github.com/sali6798/mgr-api#readme",
   "dependencies": {
+    "connect-mongo": "^3.2.0",
+    "cookie-parser": "^1.4.5",
+    "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "mongoose": "^5.9.13",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.4"
   }
 }

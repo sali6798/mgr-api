@@ -1,8 +1,17 @@
 const express = require('express');
+const session = require("express-session");
 const cors = require("cors");
 const logger = require("morgan");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
+const passport = require("passport");
+const cookieSession = require("cookie-session");
+const MongoStore = require('connect-mongo')(session);
 const routes = require("./routes");
+const passportSetupTwitter = require("./config/passport/twitter");
+const passportSetupLocal = require("./config/passport/local")
+const keys = require("./config/passport/twitter");
+
 // Sets up the Express App
 // =============================================================
 const app = express();
@@ -14,9 +23,38 @@ app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(cors({
-    origin:["http://localhost:3000"]
-}));
+app.use(cookieSession({
+        name: 'session',
+        keys: ['key1','key2'],
+        maxAge: 24 * 60 * 60 * 100
+    })
+);
+
+// app.use(session({ secret: 'blah', name: 'id' }))
+// app.use(session({
+//     secret: 'foo',
+//     store: new MongoStore({url:"mongodb://localhost/mgr"})
+// }));
+
+
+//parse cookies
+// app.use(cookieParser());
+
+//initialize passport
+app.use(passport.initialize());
+
+//deserialize cookies
+app.use(passport.session());
+
+
+//Sets up cors to allow client requests
+app.use(
+    cors({
+        origin: ["http://localhost:3000"],
+        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+        credentials: true//allow session cookie to pass through
+    })
+);
 // app.use(cors({
 //     origin: ["https://mgr-talent.herokuapp.com"]
 // }));

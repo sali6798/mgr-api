@@ -2,20 +2,15 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-    firstName: {
+    name: {
         type: String,
         trim: true,
-        required: "first name required"
-    },
-    lastName: {
-        type: String,
-        trim: true,
-        required: "last name required"
+        required: "name is required"
     },
     email: {
         type: String,
         trim: true,
-        unique: true,
+        // unique: true,
         match: [/^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,7}$/g, "Please enter a valid email address"]
     },
     password: {
@@ -26,6 +21,26 @@ const UserSchema = new Schema({
     isManager: {
         type: Boolean,
         default: false
+    },
+    profileImage: {
+        type: String,
+        trim: true
+    },
+    oauthProviderProfileId: {
+        type: String,
+        trim: true
+    },
+    accessToken: {
+        type: String,
+        trim: true
+    },
+    refreshToken: {
+        type: String,
+        trim: true
+    },
+    provider: {
+        type: String,
+        trim: true
     }
 });
 
