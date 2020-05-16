@@ -1,3 +1,4 @@
+require('dotenv').config();
 const passport = require("passport");
 const TwitterStrategy = require("passport-twitter").Strategy;
 const keys = require("../keys");
@@ -6,8 +7,8 @@ const User = require("../../models/User");
 passport.use(
     new TwitterStrategy(
         {
-            consumerKey: "T0PxjdOnWr6KeCheUk3pUSky2",
-            consumerSecret: "IvFAw63maCIAYdBpdZS6Ta7hfRd2MFJtpbJunwQzFtJ5j8uOzg",
+            consumerKey: process.env.TWITTER_CONSUMER_KEY,
+            consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
             callbackURL: "http://localhost:8080/auth/twitter/redirect"
         },
         function (token, tokenSecret, profile, cb) {

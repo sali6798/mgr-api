@@ -30,16 +30,6 @@ app.use(cookieSession({
     })
 );
 
-// app.use(session({ secret: 'blah', name: 'id' }))
-// app.use(session({
-//     secret: 'foo',
-//     store: new MongoStore({url:"mongodb://localhost/mgr"})
-// }));
-
-
-//parse cookies
-// app.use(cookieParser());
-
 //initialize passport
 app.use(passport.initialize());
 
