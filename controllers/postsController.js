@@ -17,6 +17,9 @@ module.exports = {
     create: function (req, res) {
         db.Post
             .create(req.body)
+            // TODO: fix so it takes group id
+            // .then(({_id}) => db.Group.findOneAndUpdate({ _id: req.body.groupId }, { $push: { posts: _id } }, { new: true }))
+            .then(({_id}) => db.Group.findOneAndUpdate({ _id: "5ec04bbcb9668a41143159ac" }, { $push: { posts: _id } }, { new: true }))
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
     },
