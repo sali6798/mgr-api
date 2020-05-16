@@ -1,37 +1,39 @@
 require('dotenv').config();
 const passport = require("passport");
-const TwitterStrategy = require("passport-twitter").Strategy;
+const FacebookStrategy = require("passport-facebook").Strategy;
 const User = require("../../models/User");
 
-
 passport.use(
-    new TwitterStrategy(
+    new FacebookStrategy(
         {
-            consumerKey: process.env.TWITTER_CONSUMER_KEY,
-            consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-            callbackURL: "http://localhost:8080/auth/twitter/redirect"
+            clientID: process.env.FACEBOOK_APP_ID,
+            clientSecret: process.env.FACEBOOK_APP_SECRET,
+            callbackURL: "http://localhost:8080/auth/facebook/redirect"
         },
         function (token, tokenSecret, profile, cb) {
-            
+console.log("_________P R O F I L E _________", profile);
+
             User.findOne({
                 oauthProviderProfileId: profile.id
             }).then((user, err) => {
-                            
+
                 if (err) {
                     return cb(err, null);
                 }
                 if (user) {
-                    
+
                     return cb(null, user);
                 }
 
                 else {
+                    console.log(profile);
+
                     let newUser = new User({
                         oauthProviderProfileId: profile.id,
-                        email: profile.emails && profile.emails.length > 0 ? profile.emails[0].value : null,
+                        // email: profile.emails && profile.emails.length > 0 ? profile.emails[0].value : null,
                         username: profile.username,
                         name: profile.displayName,
-                        profileImage: (profile.photos.length > 0) ? profile.photos[0].value : null,
+                        // profileImage: (profile.photos.length > 0) ? profile.photos[0].value : null,
                         accessToken: token,
                         refreshToken: tokenSecret,
                         provider: profile.provider || 'twitter'
@@ -48,21 +50,4 @@ passport.use(
             });
         }
     )
-)
-
-// serialize the user.id to save in the cookie session
-// so the browser will remember the user when login
-passport.serializeUser((user, done) => {
-    done(null, user.id);
-});
-
-// deserialize the cookieUserId to user in the database
-passport.deserializeUser((id, done) => {
-    User.findById(id)
-        .then(user => {
-            done(null, user);
-        })
-        .catch(e => {
-            done(new Error("Failed to deserialize a user"));
-        });
-});
+);
