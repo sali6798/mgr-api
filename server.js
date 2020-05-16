@@ -51,7 +51,10 @@ app.use(
 
 app.use(routes);
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/mgr");
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/mgr", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 
 app.listen(PORT, function () {
     console.log('App listening on PORT ' + PORT);
