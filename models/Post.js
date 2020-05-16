@@ -10,6 +10,10 @@ const PostSchema = new Schema({
     release: {
         type: Date,
         default: null
+    },
+    status: {
+        type: String,
+        default: "draft"
     }
 });
 
