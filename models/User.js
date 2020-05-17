@@ -22,6 +22,12 @@ const UserSchema = new Schema({
         type: Boolean,
         default: false
     },
+    groups: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Group"
+        }
+    ],
     profileImage: {
         type: String,
         trim: true
