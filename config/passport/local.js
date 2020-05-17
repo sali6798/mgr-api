@@ -4,9 +4,10 @@ const User = require("../../models/User");
 
 passport.use('local',
     new LocalStrategy(function (email, password, done) {
+        console.log('ASGGQERG'); //THIS DOESN'T PRINT
         
         User.findOne({ email: email }, function (err, user) {
-            console.log(user);
+            console.log(user); //THIS DEOSN'T PRINT
             
             if (err) {
                 return done(err);
@@ -25,7 +26,9 @@ passport.use('local',
 // serialize the user.id to save in the cookie session
 // so the browser will remember the user when login
 passport.serializeUser((user, done) => {
-    done(null, user.id);
+    console.log(user); //FALSE
+    
+    done(null, user);
 });
 
 // deserialize the cookieUserId to user in the database

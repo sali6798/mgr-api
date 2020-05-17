@@ -46,14 +46,27 @@ router.get("/logout", (req, res) => {
 
 //Local login route
 //      '/auth/login'
-router.post('/login',
+router.post('/login',(req, res, next) => {
 
-    passport.authenticate('local', { failureRedirect: '/login' }),
-    function (req, res) {
-        
-        console.log("req.body ", req.body);
-        return res.redirect(CLIENT_HOME_PAGE_URL)
-    });
+    passport.authenticate('local', (error, user, info) => {
+        if (error) {
+
+            const statusCode = error.statusCode || 500;
+            return res.status(statusCode).json(error)
+        }
+        req.login(user, (error) => {
+            if (error) {
+console.log("2nd ERROR: ",error);
+
+                const statusCode = error.statusCode || 500;
+                return res.status(statusCode).json(error)
+            }
+
+            return res.redirect(CLIENT_HOME_PAGE_URL)
+        })
+    })(req, res, next);
+});
+
 
 
 // Redirect the user to Facebook for authentication.  When complete,
