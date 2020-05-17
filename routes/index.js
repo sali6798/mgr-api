@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const apiRoutes = require("./api");
-const authRoutes = require("./auth/auth-routes")
+const authRoutes = require("./auth/auth-routes");
+
 
 // API Routes
 router.use("/api", apiRoutes);
@@ -28,6 +29,10 @@ router.get("/", authCheck, (req, res) => {
         user:req.user,
         cookies:req.cookies
     });
+});
+
+router.get("/readsessions", (req,res)=>{
+    res.json(req.session);
 });
 
 module.exports = router;
