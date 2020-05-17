@@ -46,17 +46,23 @@ router.get("/logout", (req, res) => {
 
 //Local login route
 //      '/auth/login'
-router.post('/login',(req, res, next) => {
+router.post('/login', (req, res, next) => {
+    // console.log('req.body',req.body);
+    // console.log(passport);
+    
 
     passport.authenticate('local', (error, user, info) => {
         if (error) {
+            console.log("1st ERROR", error);
 
             const statusCode = error.statusCode || 500;
             return res.status(statusCode).json(error)
         }
         req.login(user, (error) => {
+            console.log("auth user",user);
+            
             if (error) {
-console.log("2nd ERROR: ",error);
+                console.log("2nd ERROR: ", error);
 
                 const statusCode = error.statusCode || 500;
                 return res.status(statusCode).json(error)
