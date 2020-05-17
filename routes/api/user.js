@@ -12,4 +12,8 @@ router.route("/:id")
     .put(usersController.update)
     .delete(usersController.remove);
 
+//User routes: /api/user/add/group
+router.route("/add/group")
+    .put(usersController.addGroup);
+
 module.exports = router;

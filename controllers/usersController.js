@@ -32,5 +32,11 @@ module.exports = {
             .then(dbModel => dbModel.remove())
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
+    },
+    addGroup: function (req, res) {
+        db.User
+            .findOneAndUpdate({email: req.body.email}, { $push: { groups: req.body.groupId } }, { new: true })
+            .then(dbModel => res.json(dbModel))
+            .catch(err => res.status(422).json(err));
     }
 };
