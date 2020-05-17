@@ -14,7 +14,7 @@ passport.use(
         function (token, tokenSecret, profile, cb) {
             
             User.findOne({
-                oauthProviderProfileId: profile.id
+                twitterId: profile.id
             }).then((user, err) => {
                             
                 if (err) {
@@ -27,14 +27,12 @@ passport.use(
 
                 else {
                     let newUser = new User({
-                        oauthProviderProfileId: profile.id,
+                        twitterId: profile.id,
                         email: profile.emails && profile.emails.length > 0 ? profile.emails[0].value : null,
-                        username: profile.username,
                         name: profile.displayName,
                         profileImage: (profile.photos.length > 0) ? profile.photos[0].value : null,
-                        accessToken: token,
-                        refreshToken: tokenSecret,
-                        provider: profile.provider || 'twitter'
+                        twitterAccessToken: token,
+                        twitterRefreshToken: tokenSecret,
                     });
 
                     newUser.save((error, inserted) => {

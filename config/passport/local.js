@@ -3,9 +3,9 @@ const LocalStrategy = require("passport-local").Strategy;
 const User = require("../../models/User");
 
 passport.use('local',
-    new LocalStrategy(function (username, password, done) {
-        console.log('HAKSKAJS');
-        User.findOne({ name: username }, function (err, user) {
+    new LocalStrategy(function (email, password, done) {
+        
+        User.findOne({ email: email }, function (err, user) {
             console.log(user);
             
             if (err) {
