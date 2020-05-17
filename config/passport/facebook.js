@@ -11,10 +11,9 @@ passport.use(
             callbackURL: "http://localhost:8080/auth/facebook/redirect"
         },
         function (token, tokenSecret, profile, cb) {
-console.log("_________P R O F I L E _________", profile);
 
             User.findOne({
-                oauthProviderProfileId: profile.id
+                facebookId: profile.id
             }).then((user, err) => {
 
                 if (err) {
@@ -29,14 +28,10 @@ console.log("_________P R O F I L E _________", profile);
                     console.log(profile);
 
                     let newUser = new User({
-                        oauthProviderProfileId: profile.id,
-                        // email: profile.emails && profile.emails.length > 0 ? profile.emails[0].value : null,
-                        username: profile.username,
+                        facebookId: profile.id,
                         name: profile.displayName,
-                        // profileImage: (profile.photos.length > 0) ? profile.photos[0].value : null,
-                        accessToken: token,
-                        refreshToken: tokenSecret,
-                        provider: profile.provider || 'twitter'
+                        facebookAccessToken: token,
+                        facebookRefreshToken: tokenSecret,
                     });
 
                     newUser.save((error, inserted) => {
@@ -51,3 +46,20 @@ console.log("_________P R O F I L E _________", profile);
         }
     )
 );
+
+// serialize the user.id to save in the cookie session
+// so the browser will remember the user when login
+passport.serializeUser((user, done) => {
+    done(null, user.id);
+});
+
+// deserialize the cookieUserId to user in the database
+passport.deserializeUser((id, done) => {
+    User.findById(id)
+        .then(user => {
+            done(null, user);
+        })
+        .catch(e => {
+            done(new Error("Failed to deserialize a user"));
+        });
+});

@@ -32,19 +32,27 @@ const UserSchema = new Schema({
         type: String,
         trim: true
     },
-    oauthProviderProfileId: {
+    twitterId: {
         type: String,
         trim: true
     },
-    accessToken: {
+    twitterAccessToken: {
         type: String,
         trim: true
     },
-    refreshToken: {
+    twitterRefreshToken: {
         type: String,
         trim: true
     },
-    provider: {
+    facebookId: {
+        type: String,
+        trim: true
+    },
+    facebookAccessToken: {
+        type: String,
+        trim: true
+    },
+    facebookRefreshToken: {
         type: String,
         trim: true
     }
