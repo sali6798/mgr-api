@@ -9,7 +9,7 @@ const cookieSession = require("cookie-session");
 const MongoStore = require('connect-mongo')(session);
 const routes = require("./routes");
 const passportSetupTwitter = require("./config/passport/twitter");
-const passportSetupFacebook=require("./config/passport/facebook")
+const passportSetupFacebook = require("./config/passport/facebook")
 const passportSetupLocal = require("./config/passport/local")
 const keys = require("./config/passport/twitter");
 
@@ -25,11 +25,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(cookieSession({
-        name: 'session',
-        keys: ['key1','key2'],
-        maxAge: 24 * 60 * 60 * 100
-    })
-);
+    name: 'session',
+    keys: ['key1', 'key2'],
+    maxAge: 24 * 60 * 60 * 100
+}));
 
 //initialize passport
 app.use(passport.initialize());
@@ -52,7 +51,12 @@ app.use(
 
 app.use(routes);
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/mgr");
+mongoose.connect(
+    process.env.MONGODB_URI || "mongodb://localhost/mgr",
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    });
 
 app.listen(PORT, function () {
     console.log('App listening on PORT ' + PORT);
