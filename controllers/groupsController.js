@@ -32,5 +32,13 @@ module.exports = {
             .then(dbModel => dbModel.remove())
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
+    },
+    findByManager: function (req, res) {
+        db.Group
+            // .find({ manager: req.sessions._id})
+            .find({manager: "5ec02a2b80cc2d11a83da03c"})
+            .populate("posts")
+            .then(dbModel => res.json(dbModel))
+            .catch(err => res.status(422).json(err));
     }
 };
