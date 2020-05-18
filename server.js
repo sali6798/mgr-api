@@ -8,10 +8,11 @@ const passport = require("passport");
 const cookieSession = require("cookie-session");
 const MongoStore = require('connect-mongo')(session);
 const routes = require("./routes");
-const passportSetupTwitter = require("./config/passport/twitter");
-const passportSetupFacebook = require("./config/passport/facebook");
-const passportSetupLocal = require("./config/passport/local");
+// const passportSetupTwitter = require("./config/passport/twitter");
+// const passportSetupFacebook = require("./config/passport/facebook");
+// const passportSetupLocal = require("./config/passport/local");
 const keys = require("./config/passport/twitter");
+const passportSetup=require("./config/passport")
 
 
 // Sets up the Express App
