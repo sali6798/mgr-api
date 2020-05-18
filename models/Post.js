@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const PostSchema = new Schema({
+    eventTitle: {
+        type: String,
+        trim: true
+    },
     body: {
         type: String,
         trim: true
@@ -10,6 +14,10 @@ const PostSchema = new Schema({
     release: {
         type: Date,
         default: null
+    },
+    status: {
+        type: String,
+        default: "draft"
     }
 });
 

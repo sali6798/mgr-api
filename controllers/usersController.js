@@ -32,5 +32,28 @@ module.exports = {
             .then(dbModel => dbModel.remove())
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
+    },
+    addGroup: async function (req, res) {
+        let updatedUsers = [];
+
+        for await (const artist of req.body.artists) {
+            db.User
+            .findOneAndUpdate({email: artist.email}, { $push: { groups: req.body.groupId } }, { new: true })
+            .then(dbModel => updatedUsers.push(dbModel))
+            .catch(err => res.status(422).json(err));
+        }
+
+        res.json(updatedUsers);
+    },
+    findGroupArtists: function (req, res) {
+        db.User.find({ groups: req.params.id })
+            .then(artists => res.json(artists.filter(artist => artist.groups.includes(req.params.id))))
+            .catch(err => res.status(422).json(err));
+    },
+    deleteGroup: function (req, res) {
+        db.User
+            .findOneAndUpdate({ _id: req.body.id }, { $pull: { groups: req.body.groupId } }, { new: true })
+            .then(dbModel => req.json(dbModel))
+            .catch(err => res.json(err));
     }
 };

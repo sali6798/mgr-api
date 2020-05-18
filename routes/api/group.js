@@ -12,4 +12,7 @@ router.route("/:id")
     .put(groupsController.update)
     .delete(groupsController.remove);
 
+router.route("/find/manager")
+    .get(groupsController.findByManager)
+
 module.exports = router;

@@ -10,13 +10,20 @@ module.exports = {
     },
     findById: function (req, res) {
         db.Group
-            .findById(req.params.id)
+            .findOne({ _id: req.params.id })
+            .populate("posts")
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
     },
     create: function (req, res) {
+        const group = {
+            // manager: req.session.id
+            manager: "5ec1de5830c8fe6e74b262d1",
+            name: req.body.name
+        }
+
         db.Group
-            .create(req.body)
+            .create(group)
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
     },
@@ -26,10 +33,19 @@ module.exports = {
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
     },
-    remove: function (req, res) {
+    remove: async function (req, res) {
+        await db.User.updateMany({}, { $pull: { groups: req.params.id }}, { multi: true })
+        
         db.Group
-            .findById({ _id: req.params.id })
-            .then(dbModel => dbModel.remove())
+            .deleteOne({ _id: req.params.id })
+            .then(dbModel => req.json(dbModel))
+            .catch(err => res.json(err))
+    },
+    findByManager: function (req, res) {
+        db.Group
+            // .find({ manager: req.sessions._id})
+            .find({manager: "5ec1de5830c8fe6e74b262d1"})
+            .populate("posts")
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
     }
