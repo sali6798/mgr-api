@@ -17,6 +17,9 @@ router.route("/:id")
 router.route("/add/group")
     .put(usersController.addGroup);
 
+router.route("/add/event")
+    .put(usersController.addEvent);
+
 router.route("/find/group/:id")
     .get(usersController.findGroupArtists);
 

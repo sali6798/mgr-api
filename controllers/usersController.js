@@ -69,5 +69,12 @@ module.exports = {
             })
             .then(dbModel => res.json(dbModel))
             .catch(err => res.json(err));
+    },
+    addEvent: function (req, res) {
+        db.User
+            // .findById(req.user._id)
+            .findOneAndUpdate({ _id: req.user._id }, { $set: { myEvents: req.body.events }}, { new: true })
+            .then(dbModel => res.json(dbModel))
+            .catch(err => res.json(err));
     }
 };
