@@ -28,6 +28,7 @@ const UserSchema = new Schema({
             ref: "Group"
         }
     ],
+    myEvents: Array,
     profileImage: {
         type: String,
         trim: true
