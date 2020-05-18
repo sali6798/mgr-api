@@ -49,7 +49,7 @@ router.get("/logout", (req, res) => {
 router.post('/login', (req, res, next) => {
     // console.log('req.body',req.body);
     // console.log(passport);
-    
+
 
     passport.authenticate('local', (error, user, info) => {
         if (error) {
@@ -59,8 +59,8 @@ router.post('/login', (req, res, next) => {
             return res.status(statusCode).json(error)
         }
         req.login(user, (error) => {
-            console.log("auth user",user);
-            
+            console.log("req.user", req.user);
+
             if (error) {
                 console.log("2nd ERROR: ", error);
 
