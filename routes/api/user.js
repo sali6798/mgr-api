@@ -16,4 +16,10 @@ router.route("/:id")
 router.route("/add/group")
     .put(usersController.addGroup);
 
+router.route("/find/group/:id")
+    .get(usersController.findGroupArtists);
+
+router.route("/delete/group")
+    .put(usersController.deleteGroup);
+
 module.exports = router;
