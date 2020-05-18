@@ -1,17 +1,29 @@
 const router = require("express").Router();
-const userController = require("../../controllers/usersController");
+const usersController = require("../../controllers/usersController");
 
-// ============= EXAMPLE SETUP ==============
-// // Matches with "/api/user"
-// router.route("/")
-//   .get(userController.findAll)
-//   .post(userController.create);
+//User routes: /api/user/
+router.route("/")
+    .get(usersController.findAll)
+    .post(usersController.create);
 
-// // Matches with "/api/user/:id"
-// router
-//   .route("/:id")
-//   .get(userController.findById)
-//   .put(userController.update)
-//   .delete(userController.remove);
+//User routes by ID: /api/user/:id
+// .get(usersController.findById)
+router.route("/:id")
+    .get(usersController.getGroupInfo)
+    .put(usersController.update)
+    .delete(usersController.remove);
+
+//User routes: /api/user/add/group
+router.route("/add/group")
+    .put(usersController.addGroup);
+
+router.route("/add/event")
+    .put(usersController.addEvent);
+
+router.route("/find/group/:id")
+    .get(usersController.findGroupArtists);
+
+router.route("/delete/group")
+    .put(usersController.deleteGroup);
 
 module.exports = router;

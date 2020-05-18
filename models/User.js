@@ -2,20 +2,15 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-    firstName: {
+    name: {
         type: String,
         trim: true,
-        required: "first name required"
-    },
-    lastName: {
-        type: String,
-        trim: true,
-        required: "last name required"
+        required: "name is required"
     },
     email: {
         type: String,
         trim: true,
-        unique: true,
+        // unique: true,
         match: [/^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,7}$/g, "Please enter a valid email address"]
     },
     password: {
@@ -26,6 +21,41 @@ const UserSchema = new Schema({
     isManager: {
         type: Boolean,
         default: false
+    },
+    groups: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Group"
+        }
+    ],
+    myEvents: Array,
+    profileImage: {
+        type: String,
+        trim: true
+    },
+    twitterId: {
+        type: String,
+        trim: true
+    },
+    twitterAccessToken: {
+        type: String,
+        trim: true
+    },
+    twitterRefreshToken: {
+        type: String,
+        trim: true
+    },
+    facebookId: {
+        type: String,
+        trim: true
+    },
+    facebookAccessToken: {
+        type: String,
+        trim: true
+    },
+    facebookRefreshToken: {
+        type: String,
+        trim: true
     }
 });
 
