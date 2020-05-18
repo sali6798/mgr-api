@@ -21,7 +21,7 @@ passport.use(
                     return cb(err, null);
                 }
                 if (user) {
-                    
+                    //put req.
                     return cb(null, user);
                 }
 
@@ -51,11 +51,15 @@ passport.use(
 // serialize the user.id to save in the cookie session
 // so the browser will remember the user when login
 passport.serializeUser((user, done) => {
+    console.log("SERIALIZE");
+    
     done(null, user.id);
 });
 
 // deserialize the cookieUserId to user in the database
 passport.deserializeUser((id, done) => {
+    console.log("DESERIALIZE");
+    
     User.findById(id)
         .then(user => {
             done(null, user);
