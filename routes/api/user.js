@@ -7,8 +7,9 @@ router.route("/")
     .post(usersController.create);
 
 //User routes by ID: /api/user/:id
+// .get(usersController.findById)
 router.route("/:id")
-    .get(usersController.findById)
+    .get(usersController.getGroupInfo)
     .put(usersController.update)
     .delete(usersController.remove);
 
