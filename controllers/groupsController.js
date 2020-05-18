@@ -17,10 +17,11 @@ module.exports = {
     },
     create: function (req, res) {
         const group = {
-            // manager: req.session.id
-            manager: "5ec1de5830c8fe6e74b262d1",
+            manager: req.session.id,
+            // manager: "5ec1de5830c8fe6e74b262d1",
             name: req.body.name
         }
+        console.log(group)
 
         db.Group
             .create(group)
@@ -42,9 +43,10 @@ module.exports = {
             .catch(err => res.json(err))
     },
     findByManager: function (req, res) {
+        console.log(req.session.id)
         db.Group
-            // .find({ manager: req.sessions._id})
-            .find({manager: "5ec1de5830c8fe6e74b262d1"})
+            .find({ manager: req.session.id })
+            // .find({manager: "5ec1de5830c8fe6e74b262d1"})
             .populate("posts")
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
