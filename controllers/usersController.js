@@ -38,22 +38,43 @@ module.exports = {
 
         for await (const artist of req.body.artists) {
             db.User
-            .findOneAndUpdate({email: artist.email}, { $push: { groups: req.body.groupId } }, { new: true })
-            .then(dbModel => updatedUsers.push(dbModel))
-            .catch(err => res.status(422).json(err));
+                .findOneAndUpdate({ email: artist.email }, { $push: { groups: req.body.groupId } }, { new: true })
+                .then(dbModel => updatedUsers.push(dbModel))
+                .catch(err => res.status(422).json(err));
         }
 
         res.json(updatedUsers);
     },
     findGroupArtists: function (req, res) {
         db.User.find({ groups: req.params.id })
-            .then(artists => res.json(artists.filter(artist => artist.groups.includes(req.params.id))))
+            .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
     },
     deleteGroup: function (req, res) {
         db.User
             .findOneAndUpdate({ _id: req.body.id }, { $pull: { groups: req.body.groupId } }, { new: true })
-            .then(dbModel => req.json(dbModel))
+            .then(dbModel => res.json(dbModel))
+            .catch(err => res.json(err));
+    },
+    getGroupInfo: function (req, res) {
+        db.User
+            .findById(req.params.id)
+            .populate({
+                path: "groups",
+                model: "Group",
+                populate: {
+                    path: "posts",
+                    model: "Post"
+                }
+            })
+            .then(dbModel => res.json(dbModel))
+            .catch(err => res.json(err));
+    },
+    addEvent: function (req, res) {
+        db.User
+            // .findById(req.user._id)
+            .findOneAndUpdate({ _id: req.user._id }, { $set: { myEvents: req.body.events }}, { new: true })
+            .then(dbModel => res.json(dbModel))
             .catch(err => res.json(err));
     }
 };
