@@ -23,11 +23,7 @@ router.post('/', (req, res, next) => {
                 return res.status(statusCode).json(error)
             }
 
-<<<<<<< HEAD
-            return res.json(user)
-=======
             return res.json(user);
->>>>>>> development
         })
     })(req, res, next);
 });
