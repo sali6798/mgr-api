@@ -18,7 +18,6 @@ module.exports = {
     create: function (req, res) {
         const group = {
             manager: req.user._id,
-            // manager: "5ec02a2b80cc2d11a83da03c",
             name: req.body.name
         }
         console.log(group)
@@ -45,7 +44,6 @@ module.exports = {
     findByManager: function (req, res) {
         db.Group
             .find({ manager: req.user._id })
-            // .find({manager: "5ec02a2b80cc2d11a83da03c"})
             .populate("posts")
             .then(dbModel => {
                 console.log(dbModel)
