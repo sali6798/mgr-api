@@ -27,7 +27,7 @@ router.get('/redirect', (req, res, next) => {
                 return res.status(statusCode).json(error)
             }
 
-            return res.redirect(process.env.CLIENT_HOME_PAGE_URL)
+            return res.json(user);
         })
     })(req, res, next);
 });
