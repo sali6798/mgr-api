@@ -43,7 +43,6 @@ module.exports = {
             .catch(err => res.json(err))
     },
     findByManager: function (req, res) {
-        console.log(req.session.id)
         db.Group
             .find({ manager: req.user._id })
             // .find({manager: "5ec02a2b80cc2d11a83da03c"})
