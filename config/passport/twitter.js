@@ -12,7 +12,7 @@ passport.use(
             callbackURL: "http://localhost:8080/auth/twitter/redirect"
         },
         function (token, tokenSecret, profile, cb) {
-            
+                        
             User.findOne({
                 twitterId: profile.id
             }).then((user, err) => {
