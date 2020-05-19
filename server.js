@@ -42,8 +42,8 @@ app.use(passport.session());
 //Sets up cors to allow client requests
 app.use(
     cors({
-        // origin: ["http://localhost:3000"],
-        origin: ["https://mgr-talent.herokuapp.com"],
+        origin: ["http://localhost:3000"],
+        // origin: ["https://mgr-talent.herokuapp.com"],
         methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
         credentials: true //allow session cookie to pass through
     })
