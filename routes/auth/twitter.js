@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
+const User = require("../../models/User");
+
 
 // Redirect the user to Twitter for authentication.  When complete,
 // Twitter will redirect the user back to the application at
@@ -14,21 +16,27 @@ router.get("/", passport.authenticate("twitter"));
 //      '/auth/twitter/redirect'
 router.get('/redirect', (req, res, next) => {
 
-    passport.authenticate('twitter', (error, user, info) => {
-        if (error) {
+    passport.authenticate('twitter', async function (error, user, info) {
+        
+        try {
+            const updatedUser = await User.findOneAndUpdate(
+                { _id: req.user.id },
+                {
+                    twitterId: user.twitterId,
+                    twitterAccessToken: user.twitterAccessToken,
+                    twitterRefreshToken: user.twitterRefreshToken
+                }
+            )
 
-            const statusCode = error.statusCode || 500;
-            return res.status(statusCode).json(error)
+            await req.login(updatedUser);
+            
+            return res.json(updatedUser);
+
+        } catch (error) {
+            res.json(error)
         }
-        req.login(user, (error) => {
-            if (error) {
 
-                const statusCode = error.statusCode || 500;
-                return res.status(statusCode).json(error)
-            }
-
-            return res.json(user);
-        })
-    })(req, res, next);
+    })(req, res, next);  
 });
+
 module.exports = router;

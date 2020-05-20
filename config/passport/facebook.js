@@ -31,7 +31,7 @@ passport.use(
                         facebookId: profile.id,
                         name: profile.displayName,
                         facebookAccessToken: token,
-                        facebookRefreshToken: tokenSecret,
+                        // facebookRefreshToken: tokenSecret,
                     });
 
                     newUser.save((error, inserted) => {
