@@ -29,7 +29,7 @@ router.get('/redirect', (req, res, next) => {
 
             await req.login(updatedUser);
 
-            return res.json(updatedUser);
+            return res.redirect('http://localhost:3000/myaccount');
 
         } catch (error) {
             res.json(error)
