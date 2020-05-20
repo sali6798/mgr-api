@@ -10,7 +10,7 @@ const UserSchema = new Schema({
     email: {
         type: String,
         trim: true,
-        // unique: true,
+        unique: true,
         match: [/^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,7}$/g, "Please enter a valid email address"]
     },
     password: {
@@ -53,10 +53,7 @@ const UserSchema = new Schema({
         type: String,
         trim: true
     },
-    facebookRefreshToken: {
-        type: String,
-        trim: true
-    }
+    facebookPages:Array
 });
 
 const User = mongoose.model("User", UserSchema);

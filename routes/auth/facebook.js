@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
+const User = require("../../models/User");
+
 
 // Redirect the user to Facebook for authentication.  When complete,
 // Facebook will redirect the user back to the application at
@@ -14,21 +16,25 @@ router.get('/', passport.authenticate('facebook'));
 //      '/auth/facebook/redirect'
 router.get('/redirect', (req, res, next) => {
 
-    passport.authenticate('facebook', (error, user, info) => {
-        if (error) {
+    passport.authenticate('facebook', async function (error, user, info) {
 
-            const statusCode = error.statusCode || 500;
-            return res.status(statusCode).json(error)
+        try {
+            const updatedUser = await User.findOneAndUpdate(
+                { _id: req.user.id },
+                {
+                    facebookId: user.facebookId,
+                    facebookAccessToken: user.facebookAccessToken
+                }
+            )
+
+            await req.login(updatedUser);
+
+            return res.json(updatedUser);
+
+        } catch (error) {
+            res.json(error)
         }
-        req.login(user, (error) => {
-            if (error) {
 
-                const statusCode = error.statusCode || 500;
-                return res.status(statusCode).json(error)
-            }
-
-            return res.json(user);
-        })
     })(req, res, next);
 });
 
