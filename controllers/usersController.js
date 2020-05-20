@@ -1,4 +1,7 @@
 const db = require("../models");
+const cron = require("node-cron");
+const nodemailer = require("nodemailer");
+require('dotenv').config();
 
 module.exports = {
     findAll: function (req, res) {
@@ -78,3 +81,38 @@ module.exports = {
             .catch(err => res.json(err));
     }
 };
+
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD
+    }
+});
+
+
+cron.schedule("5 * * * *", function() {
+
+    const mailOptions = {
+        from: process.env.EMAIL,
+        to: `shaidee.alingcastre@gmail.com`,
+        subject: ` sent you a quiz to play on Quiz Panda!`,
+        text: `Login on https://quizpanda.herokuapp.com and enter the access code `
+    };
+    // const mailOptions = {
+    //     from: process.env.EMAIL,
+    //     to: `${email}`,
+    //     subject: `${req.body.firstName} ${req.body.lastName} sent you a quiz to play on Quiz Panda!`,
+    //     text: `Login on https://quizpanda.herokuapp.com and enter the access code ${req.body.accessCode}`
+    // };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+            res.json(error)
+        } else {
+            console.log('Email sent: ' + info.response);
+            res.json('Email sent: ' + info.response);
+        }
+    });
+})
