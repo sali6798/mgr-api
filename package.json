@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/sali6798/mgr-api#readme",
   "dependencies": {
+    "axios": "^0.19.2",
     "connect-mongo": "^3.2.0",
     "connect-mongodb-session": "^2.3.1",
     "cookie-parser": "^1.4.5",
