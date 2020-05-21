@@ -8,7 +8,7 @@ const Local = require("./local");
 // so the browser will remember the user when login
 passport.serializeUser((user, done) => {
     console.log("SERIALIZE");
-    done(null, user);
+    done(null, user.id);
 });
 
 // deserialize the cookieUserId to user in the database

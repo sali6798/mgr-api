@@ -36,7 +36,6 @@ router.get("/", authCheck, (req, res) => {
 });
 
 router.get("/readsessions", (req,res)=>{
-    // res.json(req.session);
     res.json(req.user)
 });
 
