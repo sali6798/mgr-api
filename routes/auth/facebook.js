@@ -27,11 +27,17 @@ router.get('/redirect', (req, res, next) => {
                 }
             )
 
-            await req.login(updatedUser);
+            await req.login(updatedUser, (error) => {
 
-            return res.redirect('http://localhost:3000/myaccount');
+                console.log('right before redirect', process.env.CLIENT_HOME_PAGE_URL);
+                return res.redirect(process.env.CLIENT_HOME_PAGE_URL);
+
+            });
+
 
         } catch (error) {
+            console.log('catch block', error);
+
             res.json(error)
         }
 

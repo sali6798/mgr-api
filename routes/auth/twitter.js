@@ -17,7 +17,7 @@ router.get("/", passport.authenticate("twitter"));
 router.get('/redirect', (req, res, next) => {
 
     passport.authenticate('twitter', async function (error, user, info) {
-        
+
         try {
             const updatedUser = await User.findOneAndUpdate(
                 { _id: req.user.id },
@@ -28,15 +28,20 @@ router.get('/redirect', (req, res, next) => {
                 }
             )
 
-            await req.login(updatedUser);
-            
-            return res.redirect('http://localhost:3000/myaccount');
+            await req.login(updatedUser, (error) => {
+
+                console.log('right before redirect', process.env.CLIENT_HOME_PAGE_URL);
+                return res.redirect(process.env.CLIENT_HOME_PAGE_URL);
+
+            });
+
+            return res.redirect(process.env.CLIENT_HOME_PAGE_URL);
 
         } catch (error) {
             res.json(error)
         }
 
-    })(req, res, next);  
+    })(req, res, next);
 });
 
 module.exports = router;
