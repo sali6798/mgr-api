@@ -1,5 +1,6 @@
 const db = require("../models");
 const nodemailer = require("nodemailer");
+const moment = require("moment")
 require('dotenv').config();
 
 const transporter = nodemailer.createTransport({
@@ -56,20 +57,49 @@ module.exports = {
         } catch (err) {
             res.json(err)
         }
-
-
-            
-        // db.Post
-        //     .create(req.body)
-        //     .then(({_id}) => db.Group.findOneAndUpdate({ _id: req.body.groupId }, { $push: { posts: _id } }, { new: true }))
-        //     .then(dbModel => res.json(dbModel))
-        //     .catch(err => res.status(422).json(err));
     },
-    update: function (req, res) {
-        db.Post
-            .findOneAndUpdate({ _id: req.params.id }, req.body)
-            .then(dbModel => res.json(dbModel))
-            .catch(err => res.status(422).json(err));
+    update: async function (req, res) {
+
+        if (req.body.status === "ready") {
+            const post = await db.Post.findOneAndUpdate({ 
+                _id: req.params.id 
+            }, 
+            {
+                body: req.body.body,
+                eventTitle: req.body.eventTitle,
+                imageLinks: req.body.imageLinks,
+                release: moment(),
+                status: req.body.status
+            });
+
+            req.body.artists.forEach(artist => {
+                const mailOptions = {
+                    from: process.env.EMAIL,
+                    to: `${artist}`,
+                    subject: `MGR - ATTN: ${post.eventTitle} Due Today`,
+                    text: `Visit your Dashboard https://mgr-talent.herokuapp.com/dashboard to see event details`
+                };
+
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        console.log(error);
+                        res.json(error)
+                    } else {
+                        console.log('Email sent: ' + info.response);
+                        res.json('Email sent: ' + info.response);
+                    }
+                });
+            })
+        }
+        else {
+            db.Post
+                .findOneAndUpdate({ _id: req.params.id }, req.body)
+                .then(dbModel => res.json(dbModel))
+                .catch(err => res.status(422).json(err));
+        }
+        
+
+
     },
     remove: function (req, res) {
         db.Post
