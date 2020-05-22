@@ -15,7 +15,10 @@ router.post('/tweet', (req, res) => {
         access_token_secret: req.user.twitterRefreshToken
     })
 
-    client.post("statuses/update", { status: "This is getting old..." }, function (error, tweet, response) {
+    const text = req.body.text
+
+
+    client.post("statuses/update", { status:  text  }, function (error, tweet, response) {
         if (error) {
             console.log(error)
         } else {
@@ -64,7 +67,7 @@ router.post('/image', (req, res) => {
     })
 })
 
-router.post('/media', (req, res) => {
+router.post('/media', async (req, res) => {
 
     var url = 'http://res.cloudinary.com/mgr/image/upload/v1589655643/kwsv5tngyysrkcosi8su.png';
     base64Img.requestBase64(url, await function (err, res, body) {
@@ -84,7 +87,7 @@ router.post('/media', (req, res) => {
         console.log('bytes', mediaSize);
 
     });
-    
+
     const client = new Twitter({
         consumer_key: process.env.TWITTER_CONSUMER_KEY,
         consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
