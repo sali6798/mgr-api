@@ -16,37 +16,23 @@ passport.use(
 
             User.findOne({
                 facebookId: profile.id
-            }).then( async (user, err) => {
+            }).then(async (user, err) => {
 
                 if (err) {
                     return cb(err, null);
                 }
                 if (user) {
-                    //put request to db
 
-                    console.l
-                    //const {facebookId, facebookAccessToken} = user
-                   
-                    //const completeURL = `https://graph.facebook.com/${facebookId}/accounts?access_token=${facebookAccessToken}`
-                
-                    // try {
-                    //     let {data} = await axios.get(completeURL)
-                    //     return res.json(data.data)
-                    // } catch (err) {
-                    //     console.log(err)
-                    // }
                     return cb(null, user);
                 }
 
                 else {
-                    console.log(profile);
-
                     let newUser = new User({
                         facebookId: profile.id,
                         name: profile.displayName,
                         facebookAccessToken: token,
-                        // facebookRefreshToken: tokenSecret,
                     });
+                    console.log(newUser);
 
                     newUser.save((error, inserted) => {
                         if (error) {
