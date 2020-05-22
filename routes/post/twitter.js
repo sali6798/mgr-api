@@ -15,7 +15,10 @@ router.post('/tweet', (req, res) => {
         access_token_secret: req.user.twitterRefreshToken
     })
 
-    client.post("statuses/update", { status: "This is getting old..." }, function (error, tweet, response) {
+    const text = req.body.text
+
+
+    client.post("statuses/update", { status:  text  }, function (error, tweet, response) {
         if (error) {
             console.log(error)
         } else {
@@ -64,27 +67,27 @@ router.post('/image', (req, res) => {
     })
 })
 
-router.post('/media', (req, res) => {
+router.post('/media', async (req, res) => {
 
-    var url = 'http://res.cloudinary.com/mgr/image/upload/v1589655643/kwsv5tngyysrkcosi8su.png';
-    base64Img.requestBase64(url, await function (err, res, body) {
-        console.log('_________err', err);
-        console.log('_________res', res.size);
-        // console.log('_________body.data:   ', body);
+    // var url = 'http://res.cloudinary.com/mgr/image/upload/v1589655643/kwsv5tngyysrkcosi8su.png';
+    // base64Img.requestBase64(url, await function (err, res, body) {
+    //     console.log('_________err', err);
+    //     console.log('_________res', res.size);
+    //     // console.log('_________body.data:   ', body);
 
-        var src = body;
-        var mediaData = src.substr(22);
-        // console.log("mediaData", mediaData);
+    //     var src = body;
+    //     var mediaData = src.substr(22);
+    //     // console.log("mediaData", mediaData);
 
-        let n = mediaData.length
-        console.log("FileSize: " + mediaData.length);
+    //     let n = mediaData.length
+    //     console.log("FileSize: " + mediaData.length);
 
-        // where n is the length of base64 encoded string
-        var mediaSize = 4 * Math.ceil(2 * n / 3);
-        console.log('bytes', mediaSize);
+    //     // where n is the length of base64 encoded string
+    //     var mediaSize = 4 * Math.ceil(2 * n / 3);
+    //     console.log('bytes', mediaSize);
 
-    });
-    
+    // });
+
     const client = new Twitter({
         consumer_key: process.env.TWITTER_CONSUMER_KEY,
         consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
@@ -93,13 +96,13 @@ router.post('/media', (req, res) => {
     })
 
     // const pathToFile = "http://res.cloudinary.com/mgr/image/upload/v1589655643/kwsv5tngyysrkcosi8su.png"
-    const mediaType = "image/png"
+    const mediaType = "image/jpg"
 
-    // const mediaData = fs.readFileSync(path.join(__dirname, "/Brett.jpg"))
+     const mediaData = fs.readFileSync(path.join(__dirname, "/Brett.jpg"))
     // console.log(mediaData);
 
-    // const mediaSize = fs.statSync(path.join(__dirname, "/Brett.jpg")).size
-    // console.log(mediaSize);
+    const mediaSize = fs.statSync(path.join(__dirname, "/Brett.jpg")).size
+    console.log(mediaSize);
 
 
     initializeMediaUpload()
@@ -169,7 +172,7 @@ router.post('/media', (req, res) => {
 
         return new Promise(function (resolve, reject) {
             client.post("statuses/update", {
-                status: "I tweeted from Node.js!",
+                status: req.body.text,
                 media_ids: mediaId
             }, function (error, data, response) {
                 if (error) {
