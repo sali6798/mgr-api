@@ -10,7 +10,7 @@ passport.use(
         {
             clientID: process.env.FACEBOOK_APP_ID,
             clientSecret: process.env.FACEBOOK_APP_SECRET,
-            callbackURL: "http://localhost:8080/auth/facebook/redirect"
+            callbackURL: process.env.FACEBOOK_REDIRECT
         },
         function (token, tokenSecret, profile, cb) {
 
