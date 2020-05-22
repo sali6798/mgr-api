@@ -3,6 +3,8 @@ const passport = require("passport");
 const FacebookStrategy = require("passport-facebook").Strategy;
 const User = require("../../models/User");
 
+// const axios = require("axios")
+
 passport.use(
     new FacebookStrategy(
         {
@@ -14,13 +16,25 @@ passport.use(
 
             User.findOne({
                 facebookId: profile.id
-            }).then((user, err) => {
+            }).then( async (user, err) => {
 
                 if (err) {
                     return cb(err, null);
                 }
                 if (user) {
                     //put request to db
+
+                    console.l
+                    //const {facebookId, facebookAccessToken} = user
+                   
+                    //const completeURL = `https://graph.facebook.com/${facebookId}/accounts?access_token=${facebookAccessToken}`
+                
+                    // try {
+                    //     let {data} = await axios.get(completeURL)
+                    //     return res.json(data.data)
+                    // } catch (err) {
+                    //     console.log(err)
+                    // }
                     return cb(null, user);
                 }
 
@@ -31,7 +45,7 @@ passport.use(
                         facebookId: profile.id,
                         name: profile.displayName,
                         facebookAccessToken: token,
-                        facebookRefreshToken: tokenSecret,
+                        // facebookRefreshToken: tokenSecret,
                     });
 
                     newUser.save((error, inserted) => {
@@ -46,24 +60,3 @@ passport.use(
         }
     )
 );
-
-// serialize the user.id to save in the cookie session
-// so the browser will remember the user when login
-passport.serializeUser((user, done) => {
-    console.log("SERIALIZE");
-
-    done(null, user.id);
-});
-
-// deserialize the cookieUserId to user in the database
-passport.deserializeUser((id, done) => {
-    console.log('DESERIALIZE');
-
-    User.findById(id)
-        .then(user => {
-            done(null, user);
-        })
-        .catch(e => {
-            done(new Error("Failed to deserialize a user"));
-        });
-});

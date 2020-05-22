@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const apiRoutes = require("./api");
-const authRoutes = require("./auth/auth-routes");
+const authRoutes = require("./auth");
+const postRoutes = require("./post")
 
 
 // API Routes
@@ -8,6 +9,9 @@ router.use("/api", apiRoutes);
 
 //Auth Routes
 router.use("/auth", authRoutes);
+
+//Post routes
+router.use("/post", postRoutes);
 
 //check for login
 const authCheck = (req, res, next) => {
@@ -32,7 +36,6 @@ router.get("/", authCheck, (req, res) => {
 });
 
 router.get("/readsessions", (req,res)=>{
-    // res.json(req.session);
     res.json(req.user)
 });
 
