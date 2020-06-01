@@ -35,8 +35,6 @@ router.get('/redirect', (req, res, next) => {
 
             });
 
-            return res.redirect(process.env.CLIENT_HOME_PAGE_URL);
-
         } catch (error) {
             res.json(error)
         }
