@@ -32,15 +32,8 @@ passport.use(
                         name: profile.displayName,
                         facebookAccessToken: token,
                     });
-                    console.log(newUser);
 
-                    newUser.save((error, inserted) => {
-                        if (error) {
-                            return cb(error, null);
-                        }
-
-                        return cb(null, inserted);
-                    });
+                    return cb(null, newUser);
                 }
             });
         }

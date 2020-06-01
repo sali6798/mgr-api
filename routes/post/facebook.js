@@ -22,16 +22,18 @@ router.post("/", async (req, res) => {
 
 //get every pages information that belong to user
 router.get('/pagesinfo', async (req, res) => {
-    
-    const userId =  req.user.facebookId;
+console.log("req.user.facebookAccessToken",req.user.facebookAccessToken);
+
+    const userId = req.user.facebookId;
     const userToken = req.user.facebookAccessToken;
     const completeURL = `https://graph.facebook.com/${userId}/accounts?access_token=${userToken}`
 
     try {
-        let {data} = await axios.get(completeURL)
+        let { data } = await axios.get(completeURL)
         return res.json(data.data)
     } catch (err) {
         console.log(err)
+        res.json(err)
     }
 })
 
@@ -47,7 +49,7 @@ router.post("/image/single", async (req, res) => {
     const completeURL = `https://graph.facebook.com/${pageId}/photos?url=${imgURL}&caption=${text}&access_token=${pageToken}`
 
     try {
-        let status = await axios.post(completeURL)        
+        let status = await axios.post(completeURL)
         return res.json(status.data)
     } catch (err) {
         console.log(err)

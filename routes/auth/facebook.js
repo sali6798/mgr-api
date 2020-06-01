@@ -17,7 +17,7 @@ router.get('/', passport.authenticate('facebook'));
 router.get('/redirect', (req, res, next) => {
 
     passport.authenticate('facebook', async function (error, user, info) {
-
+        
         try {
             const updatedUser = await User.findOneAndUpdate(
                 { _id: req.user.id },
