@@ -12,11 +12,11 @@ passport.use(
             callbackURL: process.env.TWITTER_REDIRECT
         },
         function (token, tokenSecret, profile, cb) {
-            
+
             User.findOne({
                 twitterId: profile.id
             }).then((user, err) => {
-                            
+
                 if (err) {
                     return cb(err, null);
                 }
@@ -35,13 +35,7 @@ passport.use(
                         twitterRefreshToken: tokenSecret,
                     });
 
-                    newUser.save((error, inserted) => {
-                        if (error) {
-                            return cb(error, null);
-                        }
-
-                        return cb(null, inserted);
-                    });
+                    return cb(null, newUser);
                 }
             });
         }
