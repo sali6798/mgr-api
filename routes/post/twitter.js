@@ -82,7 +82,6 @@ function download(url, dest) {
 
         const request = http.get(url, response => {
             if (response.statusCode === 200) {
-                console.log("hi")
                 response.pipe(file);
             } else {
                 file.close();
@@ -98,7 +97,6 @@ function download(url, dest) {
         });
 
         file.on("finish", () => {
-            console.log("hellp")
             resolve(dest);
         });
 
@@ -245,10 +243,12 @@ router.post('/media', async function (req, res) {
             i++;
         }
 
-        const response = publishStatusUpdate(client, req.body.text);
+        const response = await publishStatusUpdate(client, req.body.text);
+        mediaIdArr = [];
         res.json(response);
     } catch (err) {
         console.log(err)
+        mediaIdArr = [];
         res.json(err);
     }
 
