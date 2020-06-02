@@ -53,6 +53,7 @@ router.post("/image/single", async (req, res) => {
         return res.json(status.data)
     } catch (err) {
         console.log(err)
+        res.json(err)
     }
 
 })
