@@ -33,10 +33,25 @@ module.exports = {
             .catch(err => res.status(422).json(err));
     },
     update: function (req, res) {
-        db.User
-            .findOneAndUpdate({ _id: req.params.id }, req.body)
-            .then(dbModel => res.json(dbModel))
-            .catch(err => res.status(422).json(err));
+        const updatedUser = {};
+
+        if (req.body.name || req.body.password) {
+            if (req.body.name) {
+                updatedUser.name = req.body.name;
+            }
+
+            if (req.body.password) {
+                updatedUser.password = req.body.password;
+            }
+
+            db.User
+                .findOneAndUpdate({ _id: req.user._id }, { $set: updatedUser }, { new: true })
+                .then(dbModel => res.json(dbModel))
+                .catch(err => res.status(422).json(err));
+        }
+        else {
+            res.json("invalid")
+        }
     },
     remove: function (req, res) {
         db.User
