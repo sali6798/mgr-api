@@ -4,13 +4,13 @@ const usersController = require("../../controllers/usersController");
 //User routes: /api/user/
 router.route("/")
     .get(usersController.findAll)
-    .post(usersController.create);
+    .post(usersController.create)
+    .put(usersController.update);
 
 //User routes by ID: /api/user/:id
 // .get(usersController.findById)
 router.route("/:id")
     .get(usersController.getGroupInfo)
-    .put(usersController.update)
     .delete(usersController.remove);
 
 //User routes: /api/user/add/group
