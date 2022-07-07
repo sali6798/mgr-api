@@ -31,7 +31,7 @@
     "express-session": "^1.17.1",
     "fs": "0.0.1-security",
     "https": "^1.0.0",
-    "moment": "^2.26.0",
+    "moment": "^2.29.4",
     "mongoose": "^5.9.13",
     "morgan": "^1.10.0",
     "node-cron": "^2.0.3",
